@@ -14,6 +14,6 @@ public interface IUsersRepository extends JpaRepository<MyUser, Integer> {
     @Query("select count(user) from MyUser user")
     Integer myCount();
 
-    @Query(value = "select * from MyUser user offset(?1) limit(?2)", nativeQuery = true)
+    @Query(value = "select * from My_User user offset(?1) limit(?2)", nativeQuery = true)
     List<MyUser> paginate(int offset, int limit);
 }

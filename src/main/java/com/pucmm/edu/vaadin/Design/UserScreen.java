@@ -25,6 +25,7 @@ public class UserScreen extends VerticalLayout {
         HorizontalLayout horizontalLayout;
         HorizontalLayout btnHorizotalLayout;
         FormLayout formEditInfo;
+        VerticalLayout verticalLayout = new VerticalLayout();
 
         if (usersServices.listUsers().isEmpty())
             getUI().get().navigate("");
@@ -46,8 +47,8 @@ public class UserScreen extends VerticalLayout {
             H4 title = new H4("Calendar");
             H6 subtitle = new H6("Events");
 
-            Button calendar = new Button("Calendar");
-            calendar.setIcon(new Icon(VaadinIcon.ARROW_CIRCLE_LEFT_O));
+            Button btnCalendar = new Button("Calendar");
+            btnCalendar.setIcon(new Icon(VaadinIcon.ARROW_CIRCLE_LEFT_O));
 
             Button btnLogout = new Button("Logout");
             btnLogout.setIcon(new Icon(VaadinIcon.SIGN_OUT));
@@ -64,7 +65,7 @@ public class UserScreen extends VerticalLayout {
                 getUI().get().navigate("");
             });
 
-            calendar.addClickListener((evento) -> getUI().get().navigate("calendario"));
+            btnCalendar.addClickListener((event) -> getUI().get().navigate("calendar"));
 
             FormLayout formLayoutUser = new FormLayout();
 
@@ -103,12 +104,11 @@ public class UserScreen extends VerticalLayout {
                 }
             });
 
-            horizontalLayout.add(formLayoutUser, verticalLayoutEdit);
-            horizontalLayout.setAlignItems(Alignment.CENTER);
+            btnHorizotalLayout.add(btnCalendar, btnLogout);
+            verticalLayout.add(formLayoutUser, new HorizontalLayout(verticalLayoutEdit));
+            verticalLayout.setAlignItems(Alignment.CENTER);
 
-            btnHorizotalLayout.add(calendar, btnLogout);
-
-            add(title, subtitle, btnHorizotalLayout, horizontalLayout);
+            add(title, subtitle, btnHorizotalLayout, verticalLayout);
         }
     }
 }

@@ -48,9 +48,6 @@ public class ManagersScreen extends VerticalLayout {
         Button btnAdd = new Button("Save");
         btnAdd.getElement().setAttribute("theme", "primary");
 
-        Button btnCancel = new Button("Cancel");
-        btnCancel.getElement().setAttribute("theme", "error");
-
         ManagerActionsScreen managerActionsScreen = new ManagerActionsScreen();
 
         if (usersServices.listUsers().isEmpty())
@@ -77,13 +74,6 @@ public class ManagersScreen extends VerticalLayout {
                 dataProvider.refreshAll();
             });
 
-            btnCancel.addClickListener((evento) -> {
-                txtName.setValue("");
-                txtEmail.setValue("");
-                txtPassword.setValue("");
-            });
-
-
             H4 title = new H4("Calendar");
             H6 subtitle = new H6("Events");
 
@@ -109,7 +99,7 @@ public class ManagersScreen extends VerticalLayout {
 
             btnCalendar.addClickListener((event) -> getUI().get().navigate("calendar"));
 
-            HorizontalLayout btnHorizontalContainer = new HorizontalLayout(btnAdd, btnCancel);
+            HorizontalLayout btnHorizontalContainer = new HorizontalLayout(btnAdd);
             btnHorizontalContainer.setSpacing(true);
 
             txtName.setTitle("Name: ");

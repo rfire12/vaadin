@@ -1,48 +1,55 @@
-plugins {
-    id 'org.springframework.boot' version '2.3.3.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
-    id 'java'
+buildscript {
+    ext {
+        springBootVersion = '2.0.5.BUILD-SNAPSHOT'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
 
-group = 'com.pucmm.edu'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'ce.pucmm.edu'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 11
+targetCompatibility = 11
 
 repositories {
     mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+    maven { url "https://oss.sonatype.org/content/repositories/vaadin-snapshots/" }
     maven { url "http://maven.vaadin.com/vaadin-addons" }
 }
 
-ext {
-    set('vaadinVersion', "14.3.3")
-}
-
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'com.vaadin:vaadin-spring-boot-starter'
     compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.2.Final'
     compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.3.6.Final'
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.3.6.Final'
+
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-mail')
-    // https://mvnrepository.com/artifact/org.vaadin.addons/numberfield
-    compile group: 'org.vaadin.addons', name: 'numberfield', version: '0.5.4'
-    // https://mvnrepository.com/artifact/org.vaadin.blackbluegl/calendar-component
-    compile group: 'org.vaadin.blackbluegl', name: 'calendar-component', version: '2.0.1'
+    compile('com.vaadin:vaadin-spring-boot-starter:10.0.4')
+    compile('com.sendgrid:sendgrid-java:4.0.1')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.vaadin.addons:numberfield:0.5.1')
+    compile('org.vaadin.blackbluegl:calendar-component:2.0-BETA4')
     compile('org.vaadin.onur:calendar-component:1.0.0')
     runtime('com.h2database:h2:1.4.192')
-    compile 'com.sendgrid:sendgrid-java:4.0.1'
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
+    testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 dependencyManagement {
     imports {
-        mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+        mavenBom "com.vaadin:vaadin-bom:10.0.6"
     }
-}
-
-test {
-    useJUnitPlatform()
 }

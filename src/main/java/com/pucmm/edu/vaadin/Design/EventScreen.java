@@ -41,10 +41,7 @@ public class EventScreen extends VerticalLayout {
         Button btnEdit = new Button("Edit");
         btnEdit.getElement().setAttribute("theme", "success");
 
-        Button btnCancel = new Button("Cancel");
-        btnCancel.getElement().setAttribute("theme", "error");
-
-        HorizontalLayout btnContainer = new HorizontalLayout(btnAdd, btnCancel);
+        HorizontalLayout btnContainer = new HorizontalLayout(btnAdd);
 
         btnContainer.setSpacing(true);
 
@@ -62,7 +59,6 @@ public class EventScreen extends VerticalLayout {
 
             try {
                 eventsServices.createEvent(
-                        e.getId(),
                         e.getDate(),
                         e.getTitle(),
                         e.getColor()
@@ -74,11 +70,6 @@ public class EventScreen extends VerticalLayout {
                 exp.printStackTrace();
             }
             MainVaadin.calendar.refresh();
-        });
-
-        btnCancel.addClickListener((event) -> {
-            title.setValue("");
-            date.setValue(LocalDate.now());
         });
     }
 }

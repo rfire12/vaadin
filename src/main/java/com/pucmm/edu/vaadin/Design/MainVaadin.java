@@ -17,10 +17,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.button.Button;
 import org.vaadin.calendar.CalendarComponent;
-import org.vaadin.calendar.CalendarItemTheme;
 import org.vaadin.calendar.data.AbstractCalendarDataProvider;
-
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
@@ -33,6 +30,7 @@ public class MainVaadin extends VerticalLayout {
             .withItemLabelGenerator(MyEvent::getTitle)
             .withItemThemeGenerator(MyEvent::getColor);
 
+    @Autowired
     public static EventsServices eventsServices;
 
     @Autowired
@@ -90,32 +88,19 @@ public class MainVaadin extends VerticalLayout {
                 }
             });
 
-            btnUser.addClickListener((evento) -> getUI().get().navigate("usuario"));
-            btnCrud.addClickListener((evento) -> getUI().get().navigate("gerentes"));
-
-            eventsServices.createEvent(
-                    1,
-                    Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()),
-                    "Practica Vaadin",
-                    CalendarItemTheme.Green
-            );
+            btnUser.addClickListener((event) -> getUI().get().navigate("user"));
+            btnCrud.addClickListener((event) -> getUI().get().navigate("managers"));
 
             calendar.setDataProvider(new CustomDataProvider());
-            calendar.addEventClickListener(evt -> {
+            calendar.addEventClickListener(event -> {
                 try {
                     editEventScreen.date.setValue(
-                            evt.getDetail().getDate().toInstant()
+                            event.getDetail().getDate().toInstant()
                                     .atZone(ZoneId.systemDefault()).toLocalDate()
                     );
-
-                    editEventScreen.title.setValue(evt.getDetail().getTitle());
-
+                    editEventScreen.myEvent = event.getDetail();
+                    editEventScreen.title.setValue(event.getDetail().getTitle());
                     openScreen(editEventScreen);
-
-                    eventsServices.createEvent(
-                            evt.getDetail().getId(), evt.getDetail().getDate(),
-                            evt.getDetail().getTitle(), evt.getDetail().getColor()
-                    );
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -127,6 +112,8 @@ public class MainVaadin extends VerticalLayout {
             setAlignItems(FlexComponent.Alignment.CENTER);
 
             add(title, subtitle, btnLayout, calendar);
+
+            calendar.refresh();
         }
 
         Button btnAdd = new Button("Add");

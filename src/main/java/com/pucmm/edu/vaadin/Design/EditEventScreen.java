@@ -23,6 +23,7 @@ import java.util.Date;
 public class EditEventScreen extends VerticalLayout {
     DatePicker date = new DatePicker();
     TextField title = new TextField("Title");
+    MyEvent myEvent;
 
     public EditEventScreen(@Autowired EventsServices calendarEventService) {
         FormLayout formLayout = new FormLayout();
@@ -36,10 +37,7 @@ public class EditEventScreen extends VerticalLayout {
         Button btnEdit = new Button("Edit");
         btnEdit.getElement().setAttribute("theme", "success");
 
-        Button btnCancel = new Button("Cancel");
-        btnCancel.getElement().setAttribute("theme", "error");
-
-        HorizontalLayout btnContainer = new HorizontalLayout(btnEdit, btnCancel);
+        HorizontalLayout btnContainer = new HorizontalLayout(btnEdit);
         btnContainer.setSpacing(true);
 
         formLayout.add(title, date);
@@ -47,21 +45,19 @@ public class EditEventScreen extends VerticalLayout {
 
         add(header, formLayout, btnContainer);
 
-        btnEdit.addClickListener((evento) -> {
+        btnEdit.addClickListener((event) -> {
             MyEvent myEvent = new MyEvent(
                     Date.from(date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                     title.getValue(),
                     CalendarItemTheme.Blue
             );
 
-            try {
-                calendarEventService.createEvent(
-                        myEvent.getId(),
-                        myEvent.getDate(),
-                        myEvent.getTitle(),
-                        myEvent.getColor()
-                );
+            myEvent.setDate(Date.from(date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            myEvent.setTitle(title.getValue());
+            myEvent.setColor(CalendarItemTheme.Blue);
 
+            try {
+                calendarEventService.updateEvent(myEvent);
             } catch (Exception exp) {
                 exp.printStackTrace();
             }

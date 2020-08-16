@@ -26,13 +26,15 @@ public class LoginScreen extends VerticalLayout {
 
         Button btnAction = userService.listUsers().isEmpty() ? new Button("Sign Up") : new Button("Login");
         btnAction.getElement().setAttribute("theme", "primary");
-        HorizontalLayout horizontalLayout;
+        VerticalLayout verticalLayout;
 
         if (userService.listUsers().isEmpty()) {
-            horizontalLayout = new HorizontalLayout(txtName, txtEmail, txtPassword);
+            verticalLayout = new VerticalLayout(txtName, txtEmail, txtPassword);
         } else {
-            horizontalLayout = new HorizontalLayout(txtEmail, txtPassword);
+            verticalLayout = new VerticalLayout(txtEmail, txtPassword);
         }
+
+        HorizontalLayout horizontalLayout = new HorizontalLayout(verticalLayout);
 
         btnAction.addClickListener((evento) -> {
             if (userService.listUsers().isEmpty()) {

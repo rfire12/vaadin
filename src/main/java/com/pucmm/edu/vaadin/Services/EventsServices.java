@@ -19,12 +19,13 @@ public class EventsServices {
         return eventsRepository.findAll();
     }
 
-    public MyEvent findEventById(long id){
-        return eventsRepository.getOne(id);
+    @Transactional
+    public MyEvent createEvent(Date date, String title, CalendarItemTheme color) {
+        return eventsRepository.save(new MyEvent(date, title, color));
     }
 
     @Transactional
-    public MyEvent createEvent(long id, Date date, String title, CalendarItemTheme color) {
-        return eventsRepository.save(new MyEvent(date, title, color));
+    public MyEvent updateEvent(MyEvent event) {
+        return eventsRepository.save(event);
     }
 }

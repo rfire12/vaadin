@@ -13,6 +13,7 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 
 import java.io.IOException;
+import java.util.Map;
 
 @SpringComponent
 @UIScope
@@ -29,10 +30,7 @@ public class EmailScreen extends VerticalLayout {
         Button btnSend = new Button("Send");
         btnSend.getElement().setAttribute("theme", "primary");
 
-        Button btnCancel = new Button("Cancel");
-        btnCancel.getElement().setAttribute("theme", "error");
-
-        HorizontalLayout btnContainer = new HorizontalLayout(btnSend, btnCancel);
+        HorizontalLayout btnContainer = new HorizontalLayout(btnSend);
 
         btnContainer.setSpacing(true);
 
@@ -47,7 +45,7 @@ public class EmailScreen extends VerticalLayout {
             Email toEmail = new Email(from.getValue());
             Content emailBody = new Content("text/plain", body.getValue());
             Mail email = new Mail(fromEmail, emailSubject, toEmail, emailBody);
-            String apiKey = System.getenv("SENDGRID_API_KEY");
+            String apiKey = "SENDGRID_API_KEY";
             SendGrid sg = new SendGrid(apiKey);
             Request request = new Request();
 
@@ -55,19 +53,13 @@ public class EmailScreen extends VerticalLayout {
                 request.setMethod(Method.POST);
                 request.setEndpoint("mail/send");
                 request.setBody(email.build());
-                Response response = sg.api(request);
+                sg.api(request);
                 from.setValue("");
                 subject.setValue("");
                 body.setValue("");
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        });
-
-        btnCancel.addClickListener((event) -> {
-            from.setValue("");
-            subject.setValue("");
-            body.setValue("");
         });
     }
 }
