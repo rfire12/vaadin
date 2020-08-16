@@ -10,6 +10,7 @@ sourceCompatibility = '11'
 
 repositories {
     mavenCentral()
+    maven { url "http://maven.vaadin.com/vaadin-addons" }
 }
 
 ext {
@@ -24,8 +25,10 @@ dependencies {
     compile group: 'org.hibernate', name: 'hibernate-core', version: '5.3.6.Final'
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile('org.springframework.boot:spring-boot-starter-mail')
-    compile('org.vaadin.addons:numberfield:0.5.1')
-    compile('org.vaadin.blackbluegl:calendar-component:2.0-BETA4')
+    // https://mvnrepository.com/artifact/org.vaadin.addons/numberfield
+    compile group: 'org.vaadin.addons', name: 'numberfield', version: '0.5.4'
+    // https://mvnrepository.com/artifact/org.vaadin.blackbluegl/calendar-component
+    compile group: 'org.vaadin.blackbluegl', name: 'calendar-component', version: '2.0.1'
     compile('org.vaadin.onur:calendar-component:1.0.0')
     runtime('com.h2database:h2:1.4.192')
     compile 'com.sendgrid:sendgrid-java:4.0.1'
