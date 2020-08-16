@@ -13,11 +13,10 @@ buildscript {
 }
 
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-group 'ce.pucmm.edu'
+group 'com.pucmm.edu'
 version '1.0-SNAPSHOT'
 
 sourceCompatibility = 11
