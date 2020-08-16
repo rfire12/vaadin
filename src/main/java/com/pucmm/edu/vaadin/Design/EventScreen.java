@@ -54,7 +54,7 @@ public class EventScreen extends VerticalLayout {
             MyEvent e = new MyEvent(
                     Date.from(date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                     title.getValue(),
-                    CalendarItemTheme.Green
+                    CalendarItemTheme.Blue
             );
 
             try {
